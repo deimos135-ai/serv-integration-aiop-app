@@ -3,7 +3,7 @@ import express from "express";
 const app = express();
 app.use(express.json());
 
-const PORT = process.env.PORT || 8080;
+const PORT = Number(process.env.PORT || 8080);
 const API_TOKEN = process.env.API_TOKEN || "";
 
 function checkAuth(req, res, next) {
@@ -13,7 +13,7 @@ function checkAuth(req, res, next) {
 }
 
 app.get("/health", (_req, res) => {
-  res.json({ ok: true });
+  res.status(200).json({ ok: true });
 });
 
 app.get("/customer/by-phone", checkAuth, async (req, res) => {
@@ -23,7 +23,7 @@ app.get("/customer/by-phone", checkAuth, async (req, res) => {
     return res.status(400).json({ ok: false, error: "missing_phone" });
   }
 
-  return res.json({
+  return res.status(200).json({
     ok: true,
     found: true,
     customer: {
