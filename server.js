@@ -3,10 +3,9 @@ import express from "express";
 const app = express();
 app.use(express.json());
 
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT || 8080;
 const API_TOKEN = process.env.API_TOKEN || "";
 
-// Проста авторизація між app
 function checkAuth(req, res, next) {
   const token = req.headers["x-api-token"];
   if (!API_TOKEN || token === API_TOKEN) return next();
@@ -17,8 +16,6 @@ app.get("/health", (_req, res) => {
   res.json({ ok: true });
 });
 
-// Тимчасова заглушка.
-// Тут потім буде Bitrix/billing lookup.
 app.get("/customer/by-phone", checkAuth, async (req, res) => {
   const phone = String(req.query.phone || "").trim();
 
@@ -26,7 +23,6 @@ app.get("/customer/by-phone", checkAuth, async (req, res) => {
     return res.status(400).json({ ok: false, error: "missing_phone" });
   }
 
-  // TODO: тут буде реальний lookup у Bitrix
   return res.json({
     ok: true,
     found: true,
@@ -40,6 +36,6 @@ app.get("/customer/by-phone", checkAuth, async (req, res) => {
   });
 });
 
-app.listen(PORT, () => {
-  console.log(`integration-app listening on :${PORT}`);
+app.listen(PORT, "0.0.0.0", () => {
+  console.log(`integration-app listening on 0.0.0.0:${PORT}`);
 });
