@@ -1,0 +1,22 @@
+app = "serv-integration-aiop-app"
+primary_region = "ams"
+
+[build]
+
+[env]
+  PORT = "3000"
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+[[http_service.checks]]
+  interval = "15s"
+  timeout = "5s"
+  grace_period = "10s"
+  method = "GET"
+  path = "/health"
