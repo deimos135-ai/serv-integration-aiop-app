@@ -1,8 +1,6 @@
 app = "serv-integration-aiop-app"
 primary_region = "ams"
 
-[build]
-
 [env]
   PORT = "8080"
 
